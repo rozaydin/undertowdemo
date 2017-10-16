@@ -1,4 +1,4 @@
-package com.rhtech;
+package unit.spring.rhtech;
 
 import io.undertow.Undertow;
 import io.undertow.server.HttpHandler;

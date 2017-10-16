@@ -1,4 +1,4 @@
-package com.rhtech;
+package unit.spring.rhtech;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebInitParam;
