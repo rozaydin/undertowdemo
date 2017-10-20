@@ -1,15 +1,16 @@
-package unit.spring.rhtech;
+package com.rhtech;
 
+import com.rhtech.spring.WebAppIniter;
 import io.undertow.Undertow;
 import io.undertow.server.HttpHandler;
 import io.undertow.server.handlers.PathTemplateHandler;
 import io.undertow.servlet.Servlets;
 import io.undertow.servlet.api.*;
 import io.undertow.util.Headers;
-import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
-import org.springframework.web.servlet.DispatcherServlet;
+import org.springframework.web.SpringServletContainerInitializer;
 
-import javax.servlet.Servlet;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Test {
 
@@ -42,19 +43,26 @@ public class Test {
 
         // spring integration
         // Load Spring web application configuration
-        final AnnotationConfigWebApplicationContext cxt = new AnnotationConfigWebApplicationContext();
-        cxt.register(AppConfig.class);
-        cxt.refresh();
+        // final AnnotationConfigWebApplicationContext cxt = new AnnotationConfigWebApplicationContext();
+        // cxt.register(AppConfig.class);
+
+        // register ServletContainerInitializer and tell undertow it WebAppIniter needs
+        // to be called
+        Set<Class<?>> handlers = new HashSet<>();
+        handlers.add(WebAppIniter.class);
+        ServletContainerInitializerInfo info = new ServletContainerInitializerInfo(SpringServletContainerInitializer.class, handlers);
 
         // create a servlet container
         DeploymentInfo servletBuilder = Servlets.deployment()
                 .setClassLoader(Test.class.getClassLoader())
                 .setContextPath("/app")
                 .setDeploymentName("rozaydin")
-                .addServlets(
-                        /*Servlets.servlet("MessageServlet", MessageServlet.class)
+                .addServletContainerInitalizer(info);
+
+                /*.addServlets(
+                        *//*Servlets.servlet("MessageServlet", MessageServlet.class)
                                 .addInitParam("message", "Hello World")
-                                .addMapping("/*")*/
+                                .addMapping("/*")*//*
                         Servlets.servlet("DispatcherServlet", DispatcherServlet.class, new InstanceFactory<Servlet>() {
                             @Override
                             public InstanceHandle<Servlet> createInstance() throws InstantiationException {
@@ -74,7 +82,7 @@ public class Test {
                                 };
                             }
                         }).addMapping("/*")
-                );
+                );*/
 
         DeploymentManager manager = Servlets.defaultContainer().addDeployment(servletBuilder);
         manager.deploy();

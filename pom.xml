@@ -42,6 +42,13 @@
             <version>1.4.20.Final</version>
         </dependency>
 
+        <!-- jwt token dependencies -->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-jwt</artifactId>
+            <version>1.0.8.RELEASE</version>
+        </dependency>
+
         <!-- testing dependencies -->
         <dependency>
             <groupId>org.springframework</groupId>
@@ -106,7 +113,7 @@
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <mainClass>unit.spring.rhtech.Test</mainClass>
+                            <mainClass>com.rhtech.Test</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
